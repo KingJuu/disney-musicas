@@ -1,0 +1,58 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+    background-color: #EFF0EA;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: titulo 2fr, login 1fr;
+    height: 100vh;
+    margin: 0px 5%;
+    
+}
+
+.titulo{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+}
+.input-login{
+    background-color: #8EA3B0;
+    border-radius: 2em;
+    padding: 50px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 25px;
+    width: 100%;
+}
+
+.input-login p{
+    margin: 10px;
+}
+
+.input-login h3{
+    margin: 0px;
+}
+#nickname{
+    width: 50%;
+    height: 40px;
+    border: 0px;
+}
+
+.btn-start{
+    background-color: #F1C1B1;
+    border-radius: 2em;
+    border: 0em solid;
+    padding: 10px 40px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 50px;
+}
