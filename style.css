@@ -128,4 +128,99 @@
 #main{
     font-family: 'Montserrat', sans-serif;
     background-color: #EFF0EA;
+    height: 100vh;
+    margin: 0px;
+    display: grid;
+    grid-template-rows: 200px 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas: 
+    'cabecalho cabecalho cabecalho pontos'
+    'player player resposta resposta'
+}
+
+.pontos{
+    grid-area: pontos;
+    width: 50%;
+    height: fit-content;
+    padding: 30px 0px;
+    background-color: #EA9880;
+    border-radius: 1em;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}
+
+.player{
+    padding: 5%;
+    grid-area: player;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+}
+
+.player > img{
+    width: 25%;
+}
+
+.resposta{
+    grid-area: resposta;
+    justify-self: center;
+    width: 50%;
+    height: 50vh;
+    padding: 40px;
+    background-color: #8EA3B0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:space-evenly;
+    border-radius: 1em;
+}
+
+.input-answer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+}
+
+.input-answer > h2 {
+    color: #374850;
+    text-transform: uppercase;
+    font-size: 30px;
+}
+
+#answer{
+    width: 90%;
+    height: 80%;
+    padding: 15px;
+    border: 0px;
+    border-radius: 0.2em;
+}
+
+#btn-check{
+    background-color: #374850;
+    border-radius: 1em;
+    border: 0em solid;
+    padding: 20px;
+    cursor: pointer;
+    margin: 50px 5px 5px 5px;
+    color: #EFF0EA;
+    text-transform: uppercase;
+    font-size: 20px;
+    align-self: flex-end;
+}
+
+#btn-check:hover{
+    color: #374850;
+    background-color: #EFF0EA;
+    font-weight: bold;
+
+}
+#btn-check:focus{
+    color: #374850;
+    background-color: #EFF0EA;
 }
