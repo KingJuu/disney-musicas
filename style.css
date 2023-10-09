@@ -1,58 +1,131 @@
-body{
+*{
+    transition: 0.1s;
+}
+
+/* index */
+
+    #index{
+        font-family: 'Montserrat', sans-serif;
+        background-color: #EFF0EA;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-areas: titulo 2fr, login 1fr;
+        height: 100vh;
+        margin: 0px 5%;
+        
+    }
+
+    .titulo{
+        color:#374850;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        font-size: 30px;
+    }
+
+    .login{
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: center;
+    }
+
+
+    .input-login{
+        background-color: #8EA3B0;
+        border-radius: 2em;
+        padding: 50px 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+    }
+
+    .input-login p{
+        margin: 10px;
+    }
+
+    .input-login h3{
+        color:#111618;
+        margin: 0px;
+        align-content: center;
+    }
+    #nickname{
+        width: 50%;
+        height: auto;
+        padding: 5px;
+        border: 0px;
+        border-radius: 0.2em;
+    }
+
+    #btn-start{
+        background-color: #F1C1B1;
+        border-radius: 1em;
+        border: 0em solid;
+        padding:  0px 20px;
+        cursor: pointer;
+        margin: 50px 5px 5px 5px;
+        color:#374850;
+    }
+    
+
+    #btn-start > h2 {
+        font-weight: normal;
+    }
+
+    #btn-start:hover{
+        color: #EFF0EA;
+        background-color: #374850;
+    }
+    #btn-start:focus{
+        color: #EFF0EA;
+        background-color: #374850;
+    }
+
+
+    @media screen and (max-width: 1024px) {
+        
+        #index{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0px;
+        }
+
+        .titulo{
+            font-size: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login{
+            margin-top: 50px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .input-login{
+            padding: 30px 10px;
+        }
+
+        #nickname{
+            width: 60%;
+        }
+
+        #btn-start{
+            margin-top: 30px;
+            width: 95%;
+
+        }
+    }
+
+
+/* Main */
+
+#main{
     font-family: 'Montserrat', sans-serif;
     background-color: #EFF0EA;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-areas: titulo 2fr, login 1fr;
-    height: 100vh;
-    margin: 0px 5%;
-    
-}
-
-.titulo{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    font-size: 30px;
-}
-
-.login{
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    justify-content: center;
-}
-.input-login{
-    background-color: #8EA3B0;
-    border-radius: 2em;
-    padding: 50px 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 25px;
-    width: 100%;
-}
-
-.input-login p{
-    margin: 10px;
-}
-
-.input-login h3{
-    margin: 0px;
-}
-#nickname{
-    width: 50%;
-    height: 40px;
-    border: 0px;
-}
-
-.btn-start{
-    background-color: #F1C1B1;
-    border-radius: 2em;
-    border: 0em solid;
-    padding: 10px 40px;
-    font-size: 15px;
-    cursor: pointer;
-    margin-top: 50px;
 }
