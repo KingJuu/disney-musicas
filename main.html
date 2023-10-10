@@ -10,9 +10,9 @@
 <body id="main">
     <div class="pontos">n Pts</div>
     <div class="player">
-        <img src="./assets/play.png">
+        <img src="./assets/play.png" id="play-music">
         <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-        <lottie-player src="https://lottie.host/4cc031c5-9b14-450a-a41f-6824c00cd4c1/nrcbBwP7wN.json" background="transparent" speed="1" style="width: 60%; height: 50%" direction="1" mode="normal" loop autoplay></lottie-player>
+        <lottie-player id='gif' src="https://lottie.host/4cc031c5-9b14-450a-a41f-6824c00cd4c1/nrcbBwP7wN.json" background="transparent" speed="1" style="width: 60%; height: 50%" direction="1" mode="normal" loop autoplay></lottie-player>
         </div>
     <div class="resposta">
         <div class="input-answer">
@@ -21,5 +21,7 @@
         </div>
         <button id="btn-check">Verificar</button>
     </div>
+    <script src="./script-main.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </body>
 </html>

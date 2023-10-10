@@ -163,6 +163,15 @@
 
 .player > img{
     width: 25%;
+    cursor: pointer;
+}
+
+.player > img:hover{
+    width: 30%;
+}
+
+.player > img:focus{
+    width: 25%;
 }
 
 .resposta{
