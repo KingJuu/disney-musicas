@@ -1,8 +1,8 @@
 let player;
 let trackName;
-let pontos = 60;
+let pontos = 0;
 let ptsValendo = 15;
-let chances = 0;
+let chances = 3;
 
 const alert1 = document.querySelector('#alert-play');
 alert1.innerHTML = `<h2>Toque no play!</h2>`;
@@ -11,6 +11,8 @@ const alert2 = document.querySelector('#alert-pts');
 const alert3 = document.querySelector('#alert-resposta-errada');
 const alert4 = document.querySelector('#alert-ultima-chance');
 const alert5 = document.querySelector('#alert-erro');
+const alert6 = document.querySelector('#alert-acerto2');
+
 
 if (chances == 1){
   alerts(alert4);
@@ -21,10 +23,8 @@ if (chances == 1){
   document.getElementById("btn-continuar2").addEventListener('click', function() {
     alerts(alert4);
   })
-}else if(chances == 0){
-  localStorage.setItem('total-pts', pontos);
-  window.location.href='./end.html';
 }
+
 
 function alerts(alert){
   let teste = alert.classList;
@@ -40,34 +40,13 @@ function proximaMusica(){
         ptsValendo = 15;
         setTimeout(() => {
         player.pause();
-        }, 5000);
+        }, 15000);
+        player.connect();  
 }
-
-document.getElementById("play-music").addEventListener('click',() => {
-
-    player.togglePlay();
-    setTimeout(() => {
-      player.pause();
-    }, 5000);
-
-    const gif = document.getElementById('gif');
-    console.log(gif);
-    
-    
-    alert1.classList.add('hidden')
-    alert2.innerHTML = `<h2>Valendo ${ptsValendo} pontos!</h2>`;
-    alerts(alert2);
-    if (alert2.classList.contains('hidden')){
-      ptsValendo = ptsValendo - 5;
-    }
-    if (ptsValendo == 0) {
-      proximaMusica();
-    }
-  });
 
 window.onSpotifyWebPlaybackSDKReady = () => {
   //Trocar o token abaixo a cada hora, precisa estar logado, através do link https://developer.spotify.com/documentation/web-playback-sdk/tutorials/getting-started 
-  const token =""
+  const token ="BQBxnWODXHSqzwfgby8UHx4j_uWKW5TBhgX1-c6DufPnTJYOKnSZH6S6DKj5MNyDr-XudhYCs_SDv140dnkuKYFaNX6aarwlmqusZcE-oLXDluJgAcOw1fJid1b2riXXbbWnKTXcqiMy0DV9kvxTBdnyDHUS52uIGwoi3VSDieDaejNO_OC9NVq567tEYUWcupwiK9b9pQehSbTHZsu8wPxAyw-P"
     player = new Spotify.Player({
     name: "Web Playback SDK Quick Start Player",
     getOAuthToken: (cb) => {
@@ -94,18 +73,47 @@ window.onSpotifyWebPlaybackSDKReady = () => {
       player.addListener('player_state_changed', ({
         track_window
       }) => {
-        trackName = 'teste'//track_window.current_track.album.name;
+        trackName = track_window.current_track.album.name;
         trackName = trackName.toLowerCase();
-        console.log('Current Track:', trackName);
       });})}
     connect_to_device();
   });
+  
+document.getElementById("play-music").addEventListener('click',() => {
+  player.connect();  
+  player.togglePlay();
+  console.log('teste');
+  setTimeout(() => {
+    player.pause();
+  }, 15000);
+  
+  alert1.classList.add('hidden')
+  alert2.innerHTML = `<h2>Valendo ${ptsValendo} pontos!</h2>`;
+  alerts(alert2);
+  if (alert2.classList.contains('hidden')){
+    ptsValendo = ptsValendo - 5;
+  }
+  if (ptsValendo == 0) {
+    proximaMusica();
+  }
+});
+
 
   
 //botão resposta para verificar se a resposta está correta apagar a resposta e mudar a musica do play-music para a proxima
  document.getElementById("btn-check").addEventListener('click',(event) => {
   event.preventDefault();
-  document.querySelector('.pontos').innerHTML = `<h2>${pontos}</h2>`;
+  player.pause();
+  document.querySelector('.next-song').addEventListener('click', function(){
+    console.log('testeeeeee')
+      alerts(alert5);
+      proximaMusica()
+          })
+    document.querySelector('.next-song2').addEventListener('click', function(){
+      console.log('testeeeeee')
+      alerts(alert6);
+      proximaMusica();
+    })
 
   if (pontos == 0){
     alert3.innerHTML = `
@@ -118,44 +126,48 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 
       let resposta = document.getElementById("answer").value;
       resposta = resposta.toLowerCase();
-      if (trackName.includes(resposta)) {
-        alert("Você Acertou, Parabéns!");
+      if (resposta!="" && trackName.includes(resposta)) {
+        alerts(alert6);
+       
         document.getElementById("answer").value = "";
-            
-            proximaMusica();
-            pontos = pontos + ptsValendo;
+        pontos = pontos + ptsValendo;
+        document.querySelector('.pontos').innerHTML = `<h2>${pontos}</h2>`;
           } else {
             alerts(alert5);
             pontos = pontos - 5;
-            chances = chances--;
+            chances = chances-1;
+            if(chances == 0){
+              localStorage.setItem('total-pts', pontos);
+              var v_pontuacao = JSON.parse(localStorage.getItem('pontos_jogador')) || [];
+                v_pontuacao.push(pontos);
+                localStorage.setItem('pontos_jogador', JSON.stringify(v_pontuacao));
+              window.location.href='./end.html';
+            }
           }
         });
-      player.connect();  
 
       }else{
-       
-          let resposta = document.getElementById("answer").value;
-          resposta = resposta.toLowerCase();
-          if (trackName.includes(resposta)) {
-            alert("Você Acertou, Parabéns!");
-            document.getElementById("answer").value = "";
-                proximaMusica();
-                pontos = pontos + ptsValendo;
-              } else {
-                alerts(alert5);
-                pontos = pontos - 5;
-                chances = chances--;
-            }
-            player.connect();  
-          
+        let resposta = document.getElementById("answer").value;
+        resposta = resposta.toLowerCase();
+        if (resposta!="" && trackName.includes(resposta)) {
+          alerts(alert6);
+         
+          document.getElementById("answer").value = "";
+          pontos = pontos + ptsValendo;
+          document.querySelector('.pontos').innerHTML = `<h2>${pontos}</h2>`;
+            } else {
+              alerts(alert5);
+              pontos = pontos - 5;
+              chances = chances-1;
+              if(chances == 0){
+                localStorage.setItem('total-pts', pontos);
+                var v_pontuacao = JSON.parse(localStorage.getItem('pontos_jogador')) || [];
+                  v_pontuacao.push(pontos);
+                  localStorage.setItem('pontos_jogador', JSON.stringify(v_pontuacao));
+                window.location.href='./end.html';
+              }
+            }         
           };
-        
-    
  })
-
+ 
 };
-
-//ranking
-
-var nome = localStorage.getItem('nick');
-localStorage.setItem('player', `${nome}: ${pontos.toString()} Pontos`);
