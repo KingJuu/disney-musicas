@@ -2,6 +2,10 @@
     transition: 0.1s;
 }
 
+.blur{
+    filter: blur(2px);
+}
+
 /* index */
 
     #index{
@@ -150,7 +154,7 @@
     width: 50%;
     height: 30%;
     padding: 10px 0px;
-    color: #111618;
+    color: #374850;
     background-color: #EA9880;
     border-radius: 1em;
     justify-self: end;
@@ -508,6 +512,7 @@
     margin: 10% 0px;
 }
 
+
 #btn-play-again{
     background-color: #EA9880;
     border-radius: 1em;
@@ -562,4 +567,33 @@
 .podio > h2 > img{
     width: 30px;
     margin-right: 10px;
+}
+
+@media screen and (max-width: 1024px){
+    #end {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .mostrar-pontos{
+        width:70%;
+        font-size: 15px;
+        display: flex;
+    }
+
+
+    .pontuacao > img{
+        display: none;
+    }
+    #pontuacao-esquerda > h1{
+        font-size: 3em;
+    }
+    #btn-play-again{
+        margin: 0px;
+    }
+
+    #ranking-total{
+        padding-top: 0px;
+    }
+
 }

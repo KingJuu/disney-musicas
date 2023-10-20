@@ -16,6 +16,7 @@ document.querySelector('#btn-start').addEventListener('click', function(){
         alert('Insira seu NickName para continuar');
     }else{
         window.location.href='./main.html';
+        document.getElementById('nickname').value = '';
     }
 });
 

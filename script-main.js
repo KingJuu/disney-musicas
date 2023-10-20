@@ -3,6 +3,7 @@ let trackName;
 let pontos = 0;
 let ptsValendo = 15;
 let chances = 3;
+let primeiraVez = 1;
 
 const alert1 = document.querySelector('#alert-play');
 alert1.innerHTML = `<h2>Toque no play!</h2>`;
@@ -14,18 +15,6 @@ const alert5 = document.querySelector('#alert-erro');
 const alert6 = document.querySelector('#alert-acerto2');
 
 
-if (chances == 1){
-  alerts(alert4);
-  alert4.innerHTML = `
-  <h2>Atenção, essa é sua útima chance!</h2>
-  <button id="btn-continuar2">Continuar</button>`
-
-  document.getElementById("btn-continuar2").addEventListener('click', function() {
-    alerts(alert4);
-  })
-}
-
-
 function alerts(alert){
   let teste = alert.classList;
   if (teste.contains('hidden')){
@@ -34,6 +23,7 @@ function alerts(alert){
     teste.add('hidden');
   }
 }
+
 
 function proximaMusica(){
   player.nextTrack();
@@ -46,7 +36,7 @@ function proximaMusica(){
 
 window.onSpotifyWebPlaybackSDKReady = () => {
   //Trocar o token abaixo a cada hora, precisa estar logado, através do link https://developer.spotify.com/documentation/web-playback-sdk/tutorials/getting-started 
-  const token ="BQBxnWODXHSqzwfgby8UHx4j_uWKW5TBhgX1-c6DufPnTJYOKnSZH6S6DKj5MNyDr-XudhYCs_SDv140dnkuKYFaNX6aarwlmqusZcE-oLXDluJgAcOw1fJid1b2riXXbbWnKTXcqiMy0DV9kvxTBdnyDHUS52uIGwoi3VSDieDaejNO_OC9NVq567tEYUWcupwiK9b9pQehSbTHZsu8wPxAyw-P"
+  const token ="BQAa0CBVpgYd1RHd6qZQfILFLN6p4jOJOIshGpV-nzPpzG8QdmOyINdyd0KqQTfBD_en9IXCcOe4PZwiuAO_jjDKUQvCfSqOfwCWZtSNxemn3TzKTnJ78AYg1dSA_vxFnp3t6xAi2Z91VcMfrdWMwqkzXLLcKOP3Zqhv2R3G_4u7SKYO-ZqwXhmyebcxnw4y0jLOjhHeHavTki09sArSuIwoUPc5";
     player = new Spotify.Player({
     name: "Web Playback SDK Quick Start Player",
     getOAuthToken: (cb) => {
@@ -57,7 +47,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
   player.addListener('ready', ({ device_id }) => {
     console.log('Ready with Device ID', device_id);
     const connect_to_device = () => {
-      let album_uri = "spotify:playlist:5vhhP79Cxqi9ZEfJ3DoFcp"
+      let album_uri = "spotify:playlist:1rkPUnp4piHdBKPNTbQIsH"
       fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
         method: "PUT",
         body: JSON.stringify({
@@ -82,92 +72,85 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 document.getElementById("play-music").addEventListener('click',() => {
   player.connect();  
   player.togglePlay();
-  console.log('teste');
   setTimeout(() => {
     player.pause();
+    alert2.classList.add('hidden');
+    ptsValendo = ptsValendo - 5;
   }, 15000);
   
   alert1.classList.add('hidden')
   alert2.innerHTML = `<h2>Valendo ${ptsValendo} pontos!</h2>`;
   alerts(alert2);
-  if (alert2.classList.contains('hidden')){
-    ptsValendo = ptsValendo - 5;
-  }
+
   if (ptsValendo == 0) {
     proximaMusica();
   }
 });
 
-
+function verificarResposta(params) {
+  let resposta = document.getElementById("answer").value;
+      resposta = resposta.toLowerCase();
+      if (resposta!="" && trackName.includes(resposta)) {
+        alerts(alert6);
+        document.querySelector('.mais-pontos2').innerHTML = `<h1>+${ptsValendo} pontos</h1>`;
+        document.querySelector('.next-song2').addEventListener('click', function(){
+          let teste = alert6.classList;
+          teste.add('hidden');
+          proximaMusica();
+        })
+        pontos = pontos + ptsValendo;
+          } else {
+            alerts(alert5);
+            document.querySelector('.next-song').addEventListener('click', function(){
+            console.log('testeeeeee')
+            let teste = alert5.classList;
+            teste.add('hidden');
+            proximaMusica()
+            })
+            pontos = pontos - 5;
+            chances = chances-1;
+          }
+        document.getElementById("answer").value = "";
+        document.querySelector('.pontos').innerHTML = `<h2>${pontos}</h2>`;
+}
   
 //botão resposta para verificar se a resposta está correta apagar a resposta e mudar a musica do play-music para a proxima
  document.getElementById("btn-check").addEventListener('click',(event) => {
   event.preventDefault();
   player.pause();
-  document.querySelector('.next-song').addEventListener('click', function(){
-    console.log('testeeeeee')
-      alerts(alert5);
-      proximaMusica()
-          })
-    document.querySelector('.next-song2').addEventListener('click', function(){
-      console.log('testeeeeee')
-      alerts(alert6);
-      proximaMusica();
-    })
-
-  if (pontos == 0){
+  if (primeiraVez == 1){
+    primeiraVez = 0;
     alert3.innerHTML = `
     <h2>Cuidado, se sua resposta estiver errada você perderá 5 pontos!</h2>
     <button id="btn-continuar">Continuar</button>`;
+    
     alerts(alert3);
-
     document.getElementById("btn-continuar").addEventListener('click', function() {
       alerts(alert3);
+      verificarResposta();
+    });
+  }else{
+        verificarResposta();       
+        };
 
-      let resposta = document.getElementById("answer").value;
-      resposta = resposta.toLowerCase();
-      if (resposta!="" && trackName.includes(resposta)) {
-        alerts(alert6);
-       
-        document.getElementById("answer").value = "";
-        pontos = pontos + ptsValendo;
-        document.querySelector('.pontos').innerHTML = `<h2>${pontos}</h2>`;
-          } else {
-            alerts(alert5);
-            pontos = pontos - 5;
-            chances = chances-1;
-            if(chances == 0){
-              localStorage.setItem('total-pts', pontos);
-              var v_pontuacao = JSON.parse(localStorage.getItem('pontos_jogador')) || [];
-                v_pontuacao.push(pontos);
-                localStorage.setItem('pontos_jogador', JSON.stringify(v_pontuacao));
-              window.location.href='./end.html';
-            }
-          }
-        });
+  
+if(chances == 0){
+  localStorage.setItem('total-pts', pontos);
+  var v_pontuacao = JSON.parse(localStorage.getItem('pontos_jogador')) || [];
+    v_pontuacao.push(pontos);
+    localStorage.setItem('pontos_jogador', JSON.stringify(v_pontuacao));
+  window.location.href='./end.html';
+}
 
-      }else{
-        let resposta = document.getElementById("answer").value;
-        resposta = resposta.toLowerCase();
-        if (resposta!="" && trackName.includes(resposta)) {
-          alerts(alert6);
-         
-          document.getElementById("answer").value = "";
-          pontos = pontos + ptsValendo;
-          document.querySelector('.pontos').innerHTML = `<h2>${pontos}</h2>`;
-            } else {
-              alerts(alert5);
-              pontos = pontos - 5;
-              chances = chances-1;
-              if(chances == 0){
-                localStorage.setItem('total-pts', pontos);
-                var v_pontuacao = JSON.parse(localStorage.getItem('pontos_jogador')) || [];
-                  v_pontuacao.push(pontos);
-                  localStorage.setItem('pontos_jogador', JSON.stringify(v_pontuacao));
-                window.location.href='./end.html';
-              }
-            }         
-          };
+if (chances == 1){
+  alerts(alert4);
+  alert4.innerHTML = `
+  <h2>Atenção, essa é sua útima chance!</h2>
+  <button id="btn-continuar2">Continuar</button>`
+
+  document.getElementById("btn-continuar2").addEventListener('click', function() {
+    alerts(alert4);
+  })
+}
  })
- 
 };
